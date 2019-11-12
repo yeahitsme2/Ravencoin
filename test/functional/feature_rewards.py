@@ -487,6 +487,40 @@ class RewardsTest(RavenTestFramework):
         assert_raises_rpc_error(-1, "Failed to distribute reward",
                                 n1.distributereward, "STOCK7", tgtBlockHeight, "PAYOUT2", 2000, ownerAddr0)
 
+    def listsnapshotrequests(self):
+        self.log.info("Testing listsnapshotrequests()...")
+        n1 = self.nodes[1]
+
+        print(n1.listsnapshotrequests())
+        srl = n1.listsnapshotrequests()
+        assert_equal(0, len(srl))
+
+        asset_name1 = "LISTME"
+        block_height1 = n1.getblockcount() + 100
+        # TODO: shouldn't this fail if the asset doesn't exist?
+        n1.requestsnapshot(asset_name=asset_name1, block_height=block_height1)
+
+        asset_name2 = "LISTME2"
+        block_height2 = n1.getblockcount() + 200
+        n1.requestsnapshot(asset_name=asset_name1, block_height=block_height2)
+        n1.requestsnapshot(asset_name=asset_name2, block_height=block_height2)
+
+        n1.generate(1)
+        srl = n1.listsnapshotrequests()
+        assert_equal(3, len(srl))
+        assert_contains({'asset_name': asset_name1, 'block_height': block_height1}, srl)
+        assert_contains({'asset_name': asset_name1, 'block_height': block_height2}, srl)
+        assert_contains({'asset_name': asset_name2, 'block_height': block_height2}, srl)
+
+        srl = n1.listsnapshotrequests(asset_name1)
+        assert_equal(2, len(srl))
+        assert_contains({'asset_name': asset_name1, 'block_height': block_height1}, srl)
+        assert_contains({'asset_name': asset_name1, 'block_height': block_height2}, srl)
+
+        srl = n1.listsnapshotrequests(asset_name2)
+        assert_equal(1, len(srl))
+        assert_contains({'asset_name': asset_name2, 'block_height': block_height2}, srl)
+
     def run_test(self):
         self.activate_assets()
         self.basic_test_rvn()
@@ -496,6 +530,7 @@ class RewardsTest(RavenTestFramework):
         self.payout_with_invalid_payout_asset()
         self.payout_before_minimum_height_is_reached()
         self.payout_before_minimum_height_is_reached_custom_height_set()
+        self.listsnapshotrequests()
 
 
 if __name__ == "__main__":

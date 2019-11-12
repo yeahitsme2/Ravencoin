@@ -214,6 +214,60 @@ UniValue getsnapshotrequest(const JSONRPCRequest& request) {
     throw JSONRPCError(RPC_MISC_ERROR, std::string("Failed to retrieve specified snapshot request"));
 }
 
+UniValue listsnapshotrequests(const JSONRPCRequest& request) {
+    if (request.fHelp || request.params.size() > 2)
+        throw std::runtime_error(
+                "listsnapshotrequests [\"asset_name\" [block_height]]\n"
+                "\nList snapshot request details.\n"
+
+                "\nArguments:\n"
+                "asset_name: (string, optional) List only requests for a specific asset (default is \"\" for ALL)\n"
+                "block_height: (number, optional) List only requests for a particular block height (default is 0 for ALL)\n"
+
+                "\nResult:\n"
+                "[\n"
+                "  {\n"
+                "    asset_name: (string),\n"
+                "    block_height: (number)\n"
+                "  }\n"
+                "]\n"
+
+                "\nExamples:\n"
+                + HelpExampleCli("listsnapshotrequests", "")
+                + HelpExampleRpc("listsnapshotrequests", "\"TRONCO\" 345333")
+        );
+
+    if (!fAssetIndex)
+        return "_This rpc call is not functional unless -assetindex is enabled. To enable, please run the wallet with -assetindex, this will require a reindex to occur";
+
+    //  Extract parameters
+    std::string asset_name = "";
+    int block_height = 0;
+    if (request.params.size() > 0)
+        asset_name = request.params[0].get_str();
+    if (request.params.size() > 1)
+        block_height = request.params[1].get_int();
+
+    if (!pSnapshotRequestDb)
+        throw JSONRPCError(RPC_DATABASE_ERROR, std::string("Snapshot Request database is not setup. Please restart wallet to try again"));
+
+    UniValue result(UniValue::VARR);
+    std::set<CSnapshotRequestDBEntry> entries;
+    if (pSnapshotRequestDb->RetrieveSnapshotRequestsForHeight(asset_name, block_height, entries)) {
+        for (auto const &entry : entries) {
+            UniValue item(UniValue::VOBJ);
+            item.push_back(Pair("asset_name", entry.assetName));
+            item.push_back(Pair("block_height", entry.heightForSnapshot));
+            result.push_back(item);
+        }
+        return result;
+    }
+    else {
+        LogPrint(BCLog::REWARDS, "Failed to cancel specified snapshot request for asset '%s' at height %d!\n",
+                 asset_name.c_str(), block_height);
+    }
+}
+
 UniValue cancelsnapshotrequest(const JSONRPCRequest& request) {
     if (request.fHelp || request.params.size() < 2)
         throw std::runtime_error(
@@ -751,6 +805,7 @@ static const CRPCCommand commands[] =
 #ifdef ENABLE_WALLET
             {   "rewards",      "requestsnapshot",            &requestsnapshot,            {"asset_name", "block_height"}},
             {   "rewards",      "getsnapshotrequest",         &getsnapshotrequest,         {"asset_name", "block_height"}},
+            {   "rewards",      "listsnapshotrequests",         &listsnapshotrequests,         {"asset_name", "block_height"}},
             {   "rewards",      "cancelsnapshotrequest",      &cancelsnapshotrequest,      {"asset_name", "block_height"}},
             {   "rewards",      "distributereward",           &distributereward,           {"asset_name", "snapshot_height", "distribution_asset_name", "gross_distribution_amount", "exception_addresses"}},
 #endif
