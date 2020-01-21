@@ -17,7 +17,7 @@ Ravencoin (RVN) is a Proof of Work coin built on the Bitcoin UTXO model. As with
 
 ASIC Resistance - A published commitment to continual attempts at ASIC resistance. If ASICs are created for x16r, then we will, at a specific block number, modify one of the algorithms to add some varients of Equihash or similar efforts to increase the resistance to ASIC miners for Raven.
 
-#### Asset Support
+#### Asset Support (Complete)
 
 Ravencoin will be a hard fork that extends Raven to include the ability to issue and transfer assets. The expected release of asset capabilities will be approximately seven months after the release of RVN. Raven will be extended to allow issuing, reissuing, and transfer of assets. Assets can be reissuable or limited to a set supply at the point of issuance. The cost to create assets will be 500 RVN to create any qty of an asset. Each asset name must be unique. Asset names will be limited to A-Z and 0-9, '_' and '.' and must be at least three characters long. The '.' and the '_' cannot be the first, or the last character, or be consecutive.  
 
@@ -39,21 +39,21 @@ The RVN used to issue assets will be sent to a burn address, which will reduce t
 
 Asset transfers require the standard RVN transaction fees for transfer from one address to another.
 
-#### Metadata
+#### Metadata (Complete)
 
 Metadata about the token can be stored in IPFS.
 
-#### Rewards
+#### Rewards (Complete)
 
 Reward capabilities will be added to allow payment (in RVN) to all holders of an asset. Payments of RVN would be distributed to all asset holders pro rata. This is useful for paying dividends, dividing payments, or rewarding a group of token holders.  
 
 Example: A small software company issues an asset GAMECO that represents a share of the project. GAMECO tokens can be traded with others. Once the software company profits, those profits can be distributed to all holders of GAMECO by sending the profits (via RVN) to all holders of GAMECO.
 
-#### Block Size
+#### Block Size (as needed)
 
 Raven may increase the blocksize from 2 MB to X MB to allow for more on-chain transactions.
 
-### Phase 3 - Rewards
+### Phase 3 - Rewards (Complete)
 
 Rewards allow payment in RVN to asset holders.
 
@@ -71,7 +71,7 @@ are unique tokens.
 *  In game assets. A game ZYX_GAME could create unique limited edition in-game assets that are owned and used by the game player. Example: ZYX_GAME:Sword005 and ZYX_GAME:Purse
 *  RVN based unique assets can be tied to real world assets. Create an asset named GOLDVAULT. Each gold coin or gold bar in a vault can be serialized and audited. Associated unique assets GOLDVAULT:444322 and GOLDVAULT:555994 can be created to represent the specific assets in the physical gold vault. The public nature of the chain allows for full transparency.
 
-### Phase 5 - Messaging
+### Phase 5 - Messaging (Complete for consensus, Client work ongoing)
 
 Messaging to token holders by authorized senders will be layered on top of the Phase 4 unique assets. See [KAAAWWW Protocol](https://medium.com/@tronblack/ravencoin-kaaawww-2f72077aece) for additional information.
 
@@ -93,7 +93,7 @@ Speeds adoption into the larger crypto ecosystem.
 [More on compatibility mode...](./compatibility-mode/README.md)
 
 
-### Phase 8 - Mobile Wallet compatible Mnemonic Seed
+### Phase 8 - Mobile Wallet compatible Mnemonic Seed (Partial - w/command-line-flag)
 
 Switches to a default of generating a 128 bit seed from which the master key is generated.  This allows easy backup for anyone that doesn't import private keys.  Warnings added to back up wallet.dat when importing private keys.
 
@@ -128,3 +128,17 @@ Lists addresses by asset.
 
 `getassetdata (asset_name)`
 Lists asset data of an asset.
+
+### Update - 2020-01-21
+
+In order to accommodate changes to the crypto ecosystem, new capabilities were added to Ravencoin that were not in the original design spec.  These extra capabilities should not affect existing assets or RVN - except for allowing memos for all transactions.    
+
+Memos - The ability to store IPFS content identifier with every transaction.  This allows for a public memo fields (data can be encrypted) with every transaction of RVN, Assets, Tags, or Restricted Assets.  (Complete).  
+
+Tags - The ability to attach a tag (immutably and only from a private keyholder) to a Ravencoin address.  This works hand-in-hand with Restricted Assets. (Complete).  
+
+Restricted Assets - Specially designated Assets (begin with $) that allow the issuer more control over the asset.  Issuer control includes freezing, freezing by address, and restricting asset to specially tagged addresses. (Complete).   
+
+
+
+
