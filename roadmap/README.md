@@ -133,11 +133,11 @@ Lists asset data of an asset.
 
 In order to accommodate changes to the crypto ecosystem, new capabilities were added to Ravencoin that were not in the original design spec.  These extra capabilities should not affect existing assets or RVN - except for allowing memos for all transactions.    
 
-Memos - The ability to store IPFS content identifier with every transaction.  This allows for a public memo fields (data can be encrypted) with every transaction of RVN, Assets, Tags, or Restricted Assets.  (Complete).  
+**Memos** - The ability to store IPFS content identifier with every transaction.  This allows for a public memo fields (data can be encrypted) with every transaction of RVN, Assets, Tags, or Restricted Assets.  (Complete).  
 
-Tags - The ability to attach a tag (immutably and only from a private keyholder) to a Ravencoin address.  This works hand-in-hand with Restricted Assets. (Complete).  
+**Tags** - The ability to attach a tag (immutably and only from a private keyholder) to a Ravencoin address.  This works hand-in-hand with Restricted Assets. (Complete).  
 
-Restricted Assets - Specially designated Assets (begin with $) that allow the issuer more control over the asset.  Issuer control includes freezing, freezing by address, and restricting asset to specially tagged addresses. (Complete).   
+**Restricted Assets** - Specially designated Assets (begin with $) that allow the issuer more control over the asset.  Issuer control includes freezing, freezing by address, and restricting asset to specially tagged addresses. (Complete).   
 
 
 
